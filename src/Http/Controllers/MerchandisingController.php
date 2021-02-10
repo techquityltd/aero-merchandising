@@ -9,10 +9,12 @@ use Aero\Catalog\Events\ListingsUpdated;
 use Aero\Catalog\Models\Category;
 use Aero\Catalog\Models\Combination;
 use Aero\Catalog\Models\Tag;
+use Aero\Catalog\Models\Product;
 use Aero\Common\Services\CombinationSerializer;
 use Aero\Responses\ProcessesResponseBuilder;
 use Aero\Responses\ResponseHandler;
 use Aero\Search\Contracts\ListingsRepository;
+use Aero\Search\Elastic\Documents\ListingDocument;
 use Aero\Store\Http\Responses\ListingsJson;
 use Aero\Store\Http\Responses\ListingsPage;
 use Aero\Store\Models\Slug;
@@ -47,7 +49,11 @@ class MerchandisingController extends Controller
 
     public function store(Request $request)
     {
+
         $combination = Combination::find($request->input('combination_id'));
+
+
+
         $merchandised = $request->input('sorts');
 
         // Clear sorts for combination
@@ -55,6 +61,7 @@ class MerchandisingController extends Controller
 
         // Insert in correct order
         foreach($merchandised as $sort => $listing) {
+
             DB::connection('mysql')->table('combination_listing')->insert(['combination_id' => $combination->id, 'listing_id' => $listing, 'sort' => $sort]);
         }
 
@@ -73,6 +80,11 @@ class MerchandisingController extends Controller
         $combination = Combination::find($request->input('combination'));
 
         $listings = $this->getListings($combination);
+
+        //$listings->each(function($listing) {
+        //   $product =  Product::find ($listing->product_id);
+        //  // dump($product->tags);
+        //});
 
         return view('merchandising::listings', compact('listings', 'combination'));
     }
