@@ -59,9 +59,9 @@ class MerchandisingController extends Controller
         }
 
         // Update search (if not sync as it's really slow)
-        if(config('queue.default') != 'sync') {
+        //if(config('queue.default') != 'sync') {
             event(new ListingsUpdated($combination->listings));
-        }
+        //}
 
         return redirect(route('admin.modules.merchandising.listings', ['combination' => $combination->id]))->with([
             'message' => __('Merchandising has been saved'),

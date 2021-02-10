@@ -24,9 +24,10 @@
                         <div class="w-1/4 px-2 -mx-2 my-3 text-center" :key="{{$listing->id}}">
 
                             <div class="card">
-                                <div class=""><img src="/image-factory/170x204:crop/{{$listing->images[0]['file']}}"/></div>
-                                <div class="font-bold pt-3 pb-2 w-full text-center mx-auto">{{$listing->listingname}}</div>
-                                <div class="font-normal w-full text-center mx-auto">{!!  $listing->listingShortDesc !!}</div>
+                                <div class=""><img src="/image-factory/200x200:pad/{{$listing->images[0]['file']}}"/></div>
+                                <div class="font-bold pt-3 pb-2 w-full text-center mx-auto">{{$listing->manufacturer['name']}}  {{$listing->name}}</div>
+                                <div class="font-normal pt-3 pb-2 w-full text-center mx-auto">{{$listing->model}}</div>
+                                <div class="font-normal w-full text-center mx-auto">Stock: {!!  $listing->stock_level !!}</div>
                                 <input type="hidden" style="width:100px;" name="sorts[]" :value="{{$listing->id}}" />
                             </div>
 
