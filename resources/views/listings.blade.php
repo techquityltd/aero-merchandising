@@ -17,11 +17,11 @@
 
 
 
-                <draggable class="w-full flex flex-wrap" group="listings" @start="drag=true" @end="drag=false">
+                <draggable id="sortab" class="w-full flex flex-wrap" group="listings" @start="drag=true" @end="drag=false">
 
                     @foreach($listings as $listing)
 
-                        <div class="w-1/4 px-2 -mx-2 my-3 text-center" :key="{{$listing->id}}">
+                        <div class="w-1/4 px-2 -mx-2 my-3 text-center sortable" :key="{{$listing->id}}">
 
                             <div class="card">
                                 <div class=""><img src="/image-factory/200x200:pad/{{$listing->images[0]['file']}}"/></div>
@@ -41,27 +41,7 @@
     </div>
 
 
-{{--    <script src='/vendor/merchandising/js/html5sortable.min.js'></script>--}}
-{{--    <script>--}}
 
-
-{{--        //alert(document.getElementById('merchandising'));--}}
-{{--        sortable('.grid', {--}}
-{{--            forcePlaceholderSize: true,--}}
-{{--            placeholderClass: 'border border-2 bg-red'--}}
-{{--        });--}}
-
-{{--    </script>--}}
-{{--    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>--}}
-
-{{--    <script>--}}
-
-{{--        new Sortable(document.getElementById('merchandising'), {--}}
-{{--            swap: true, // Enable swap plugin--}}
-{{--            swapClass: 'highlight', // The class applied to the hovered swap item--}}
-{{--            animation: 150--}}
-{{--        });--}}
-{{--    </script>--}}
 @endsection
 @push('scripts')
 
