@@ -15,14 +15,14 @@
 
 
                 <div class="card">
-                    <button class="btn btn-primary sortby">Sort by Stock</button>
+                    <button class="btn btn-primary sortby sortby_stock">Sort by Stock</button>
                 </div>
 
                 <div id="sortable" class="w-full flex flex-wrap">
 
                     @foreach($listings as $listing)
 
-                        <div class="w-1/4 px-2 -mx-2 my-3 text-center sortable" key="{{$listing->id}}">
+                        <div class="w-1/4 my-3 text-center sortable" key="{{$listing->id}}">
 
                             <div class="card">
                                 <div class=""><img src="/image-factory/200x200:pad/{{$listing->images[0]['file']}}"/></div>
@@ -60,8 +60,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinysort/2.3.6/tinysort.min.js"></script>
 <script>
 
-
-
     Sortable.create(sortable, {
         group: 'shared',
         multiDrag: true,
@@ -77,13 +75,16 @@
         // Don't follow the link
         event.preventDefault();
 
-        // Log the clicked element in the console
-        console.log(event.target);
-        tinysort("div#sortable>div",{selector:'.stock', useVal:true,order:'desc'});
-        //Sortable.sort();
+        if (event.target.matches('.sortby_stock')) {
+            tinysort("div#sortable>div",{selector:'.stock', useVal:true,order:'desc'});
+        }
+
+        if (event.target.matches('.sortby_tag')) {
+            tinysort("div#sortable>div",{selector:'.tag', useVal:true,order:'asc'});
+        }
+
+
     }, false);
-
-
 
 </script>
 @endpush
