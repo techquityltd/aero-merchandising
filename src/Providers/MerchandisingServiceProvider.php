@@ -4,8 +4,11 @@ namespace Aero\Merchandising\Providers;
 
 use Aero\Admin\AdminModule;
 use Illuminate\Support\ServiceProvider;
+use Aero\Common\Facades\Settings;
+use Aero\Common\Providers\ModuleServiceProvider;
+use Aero\Common\Settings\SettingGroup;
 
-class MerchandisingServiceProvider extends ServiceProvider
+class MerchandisingServiceProvider extends ModuleServiceProvider
 {
     public function boot(): void
     {
@@ -22,12 +25,17 @@ class MerchandisingServiceProvider extends ServiceProvider
         }
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'merchandising');
+
+        Settings::group('merchandising', static function (SettingGroup $group) {
+            $group->string('sortables')->default(config('merchandising.sortables'));
+        });
     }
 
     public function register(): void
     {
+
         if (! $this->app->configurationIsCached()) {
-            $this->mergeConfigFrom(__DIR__.'/../../config/config.php', 'aero.merchandising');
+            $this->mergeConfigFrom(__DIR__.'/../../config/config.php', 'merchandising');
         }
 
 

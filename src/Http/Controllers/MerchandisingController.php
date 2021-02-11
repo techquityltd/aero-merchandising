@@ -9,6 +9,7 @@ use Aero\Catalog\Events\ListingsUpdated;
 use Aero\Catalog\Models\Category;
 use Aero\Catalog\Models\Combination;
 use Aero\Catalog\Models\Tag;
+use Aero\Catalog\Models\TagGroup;
 use Aero\Catalog\Models\Product;
 use Aero\Common\Services\CombinationSerializer;
 use Aero\Responses\ProcessesResponseBuilder;
@@ -32,6 +33,7 @@ use Illuminate\Container\Container;
 class MerchandisingController extends Controller
 {
     use ProcessesResponseBuilder;
+
 
     public function index(CombinationsResourceList $list, Request $request)
     {
@@ -81,12 +83,29 @@ class MerchandisingController extends Controller
 
         $listings = $this->getListings($combination);
 
-        //$listings->each(function($listing) {
-        //   $product =  Product::find ($listing->product_id);
-        //  // dump($product->tags);
+        $tags = TagGroup::whereIn('id', config('merchandising.sortables'))->get();
+
+        //$tags->each(function($tag) {
+        //    //dd($tag->tags);
         //});
 
-        return view('merchandising::listings', compact('listings', 'combination'));
+
+        //$listings->map(function($listing) use (&$tags) {
+        //
+        //    //dump($listing->product->tags->firstWhere('tag_group_id', 2));
+        //    $product =  Product::find ($listing->product_id);
+        //
+        //    $product->tags->whereIn('tag_group_id', [2])->map(function($tag) use (&$tags) {
+        //        if(!isset($tags[$tag->group->name]) || !in_array($tag->name, $tags[$tag->group->name])) {
+        //            $tags[$tag->group->name][] = $tag->name;
+        //        }
+        //    });
+        //
+        //});
+
+        //dump(($listings));
+
+        return view('merchandising::listings', compact('listings', 'combination', 'tags'));
     }
 
     private function getListings(Combination $combination)

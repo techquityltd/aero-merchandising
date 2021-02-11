@@ -12,7 +12,6 @@
     <link href="{{ mix('css/app.css', 'modules/aerocommerce/admin') }}" rel="stylesheet">
     @stack('styles')
     @include('admin::custom')
-{{--    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>--}}
     <!-- Latest Sortable -->
     <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
 

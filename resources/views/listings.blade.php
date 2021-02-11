@@ -16,6 +16,9 @@
 
                 <div class="card">
                     <button class="btn btn-primary sortby sortby_stock">Sort by Stock</button>
+                    @foreach($tags as $tag => $value)
+                        <button class="btn btn-primary sortby sortby_{{$value->name}}">Sort by {{$value->name}}</button>
+                    @endforeach
                 </div>
 
                 <div id="sortable" class="w-full flex flex-wrap">
@@ -28,10 +31,17 @@
                                 <div class=""><img src="/image-factory/200x200:pad/{{$listing->images[0]['file']}}"/></div>
                                 <div class="font-bold pt-3 pb-2 w-full text-center mx-auto">{{$listing->manufacturer['name']}}  {{$listing->name}}</div>
                                 <div class="font-normal pt-3 pb-2 w-full text-center mx-auto">{{$listing->model}}</div>
-                                <div class="font-normal w-full text-center mx-auto">Stock: {!!  $listing->stock_level !!}</div>
+                                <div class="font-normal w-full text-center mx-auto mb-2">Stock: {!!  $listing->stock_level !!}</div>
                                 <input type="hidden" style="width:100px;" name="sorts[]" value="{{$listing->id}}" />
-                                <input class="stock" type="text" style="width:100px;" name="stock[]" value="{{  $listing->stock_level }}" />
+                                <input class="stock" type="hidden" style="width:100px;" name="stock[]" value="{{  $listing->stock_level }}" />
 
+                                @foreach($tags as $tag => $value)
+                                    @forelse($listing->product->tags->whereIn('tag_group_id', $value->id) as $tag)
+                                        <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="{{$tag->name}}" />
+                                    @empty
+                                        <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="ZZ99" />
+                                    @endforelse
+                                @endforeach
                             </div>
 
                         </div>
@@ -79,9 +89,13 @@
             tinysort("div#sortable>div",{selector:'.stock', useVal:true,order:'desc'});
         }
 
-        if (event.target.matches('.sortby_tag')) {
-            tinysort("div#sortable>div",{selector:'.tag', useVal:true,order:'asc'});
+        @foreach($tags as $tag => $value)
+        if (event.target.matches('.sortby_{{$value->name}}')) {
+            //alert('{{$tag}}');
+            tinysort("div#sortable>div",{selector:'.{{$value->name}}', useVal:true,order:'asc'});
         }
+        @endforeach
+
 
 
     }, false);
