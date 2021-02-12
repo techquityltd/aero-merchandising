@@ -40,6 +40,7 @@
                             $combination->label = $label;
                             $combination->save();
                             @endphp
+                            {{ $combination->label  }}
                         @else
                             {{ $combination->label  }}
                         @endif

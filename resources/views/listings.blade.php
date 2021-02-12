@@ -16,9 +16,11 @@
 
                 <div class="card">
                     <button class="btn btn-primary sortby sortby_stock">Sort by Stock</button>
-                    @foreach($tags as $tag => $value)
-                        <button class="btn btn-primary sortby sortby_{{$value->name}}">Sort by {{$value->name}}</button>
-                    @endforeach
+                    @isset($tags)
+                        @foreach($tags as $tag => $value)
+                            <button class="btn btn-primary sortby sortby_{{$value->name}}">Sort by {{$value->name}}</button>
+                        @endforeach
+                    @endisset
                 </div>
 
                 <div id="sortable" class="w-full flex flex-wrap">
@@ -34,14 +36,15 @@
                                 <div class="font-normal w-full text-center mx-auto mb-2">Stock: {!!  $listing->stock_level !!}</div>
                                 <input type="hidden" style="width:100px;" name="sorts[]" value="{{$listing->id}}" />
                                 <input class="stock" type="hidden" style="width:100px;" name="stock[]" value="{{  $listing->stock_level }}" />
-
-                                @foreach($tags as $tag => $value)
-                                    @forelse($listing->product->tags->whereIn('tag_group_id', $value->id) as $tag)
-                                        <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="{{$tag->name}}" />
-                                    @empty
-                                        <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="ZZ99" />
-                                    @endforelse
-                                @endforeach
+                                @isset($tags)
+                                    @foreach($tags as $tag => $value)
+                                        @forelse($listing->product->tags->whereIn('tag_group_id', $value->id) as $tag)
+                                            <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="{{$tag->name}}" />
+                                        @empty
+                                            <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="ZZ99" />
+                                        @endforelse
+                                    @endforeach
+                                @endisset
                             </div>
 
                         </div>
@@ -88,13 +91,14 @@
         if (event.target.matches('.sortby_stock')) {
             tinysort("div#sortable>div",{selector:'.stock', useVal:true,order:'desc'});
         }
-
-        @foreach($tags as $tag => $value)
-        if (event.target.matches('.sortby_{{$value->name}}')) {
-            //alert('{{$tag}}');
-            tinysort("div#sortable>div",{selector:'.{{$value->name}}', useVal:true,order:'asc'});
-        }
-        @endforeach
+        @isset($tags)
+            @foreach($tags as $tag => $value)
+                if (event.target.matches('.sortby_{{$value->name}}')) {
+                    //alert('{{$tag}}');
+                    tinysort("div#sortable>div",{selector:'.{{$value->name}}', useVal:true,order:'asc'});
+                }
+            @endforeach
+        @endisset
 
 
 
