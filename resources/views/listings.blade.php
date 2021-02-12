@@ -36,15 +36,16 @@
                                 <div class="font-normal w-full text-center mx-auto mb-2">Stock: {!!  $listing->stock_level !!}</div>
                                 <input type="hidden" style="width:100px;" name="sorts[]" value="{{$listing->id}}" />
                                 <input class="stock" type="hidden" style="width:100px;" name="stock[]" value="{{  $listing->stock_level }}" />
-                                @isset($tags)
+                                @if(isset($listing->product->tags) && isset($tags) )
                                     @foreach($tags as $tag => $value)
+
                                         @forelse($listing->product->tags->whereIn('tag_group_id', $value->id) as $tag)
                                             <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="{{$tag->name}}" />
                                         @empty
                                             <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="ZZ99" />
                                         @endforelse
                                     @endforeach
-                                @endisset
+                                @endif
                             </div>
 
                         </div>
