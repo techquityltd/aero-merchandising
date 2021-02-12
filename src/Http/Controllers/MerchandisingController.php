@@ -85,6 +85,7 @@ class MerchandisingController extends Controller
 
         $tags = TagGroup::whereIn('id', config('merchandising.sortables'))->get();
 
+        //dd(config('merchandising.sortables'));
         //$tags->each(function($tag) {
         //    //dd($tag->tags);
         //});
