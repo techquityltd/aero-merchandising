@@ -45,6 +45,8 @@
                                             <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="ZZ99" />
                                         @endforelse
                                     @endforeach
+                                @else
+                                    <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="ZZ99" />
                                 @endif
                             </div>
 
