@@ -40,13 +40,13 @@
                                     @foreach($tags as $tag => $value)
 
                                         @forelse($listing->product->tags->whereIn('tag_group_id', $value->id) as $tag)
-                                            <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="{{$tag->name}}" />
+                                            <input class="{{$value->name}}" type="text" style="width:100px;" name="{{$value->name}}[]" value="{{$tag->name}}" />
                                         @empty
-                                            <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="ZZ99" />
+                                            <input class="{{$value->name}}" type="text" style="width:100px;" name="{{$value->name}}[]" value="ZZ99" />
                                         @endforelse
                                     @endforeach
                                 @else
-                                    <input class="{{$value->name}}" type="hidden" style="width:100px;" name="{{$value->name}}[]" value="ZZ99" />
+                                    <input class="{{$value->name}}" type="text" style="width:100px;" name="{{$value->name}}[]" value="ZZ99" />
                                 @endif
                             </div>
 
