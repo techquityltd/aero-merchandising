@@ -30,7 +30,7 @@
                         <div class="w-1/4 my-3 text-center sortable" key="{{$listing->id}}">
 
                             <div class="card">
-                                <div class=""><img src="/image-factory/200x200:pad/{{$listing->images[0]['file']}}"/></div>
+                                <div class=""><img src="/image-factory/200x200:pad/{{isset($listing->images[0]) ? $listing->images[0]['file']:'/image-placeholder.svg'}}"/></div>
                                 <div class="font-bold pt-3 pb-2 w-full text-center mx-auto">{{$listing->manufacturer['name']}}  {{$listing->name}}</div>
                                 <div class="font-normal pt-3 pb-2 w-full text-center mx-auto">{{$listing->model}}</div>
                                 <div class="font-normal w-full text-center mx-auto mb-2">Stock: {!!  $listing->stock_level !!}</div>
