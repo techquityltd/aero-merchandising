@@ -31,11 +31,10 @@
                                 }
                                 return $model;
                             });
-                            
+
 
                             $label = $models->map(function ($model) {
                                 if($model instanceof \Aero\Catalog\Models\Category) {
-
                                     return implode(' > ', $model->breadcrumb->pluck('name')->toArray());
                                 }
                                 return $model->name ." > ";
