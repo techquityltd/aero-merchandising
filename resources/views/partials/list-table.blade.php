@@ -21,24 +21,31 @@
                 <td>
                     <a href="{{ route('admin.modules.merchandising.listings', array_merge(request()->all(), ['combination' => $combination])) }}">
 
-                        @if(empty($combination->label))
+                        @if(!empty($combination->label))
                             @php
                             $models = Aero\Common\Services\CombinationSerializer::deserialize($combination);
 
                             $models = $models->map(static function ($model, $key) {
-                            if ($model instanceof \Illuminate\Support\Collection) {
-                            $model = $model->first();
-                            }
-                            return $model;
+                                if ($model instanceof \Illuminate\Support\Collection) {
+                                    $model = $model->first();
+                                }
+                                return $model;
                             });
+                            
 
                             $label = $models->map(function ($model) {
+                                if($model instanceof \Aero\Catalog\Models\Category) {
+
+                                    return implode(' > ', $model->breadcrumb->pluck('name')->toArray());
+                                }
                                 return $model->name ." > ";
                             })->implode(' ');
+
 
                             $label =  trim($label, ' > ');
                             $combination->label = $label;
                             $combination->save();
+
                             @endphp
                             {{ $combination->label  }}
                         @else
