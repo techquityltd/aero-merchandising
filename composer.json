@@ -2,6 +2,7 @@
   "name": "techquity/aero-merchandising",
   "description": "Merchandising Tool for Aero Commerce.",
   "require": {
+    "aerocommerce/admin": "^0.3",
     "php": "^7.2|^8.0"
   },
   "autoload": {
