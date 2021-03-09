@@ -21,7 +21,7 @@
                 <td>
                     <a href="{{ route('admin.modules.merchandising.listings', array_merge(request()->all(), ['combination' => $combination])) }}">
 
-                        @if(!empty($combination->label))
+                        @if (empty($combination->label))
                             @php
                             $models = Aero\Common\Services\CombinationSerializer::deserialize($combination);
 
