@@ -40,7 +40,7 @@ class MerchandisingController extends Controller
         $sortBy = $request->input('sort');
         $searchTerm = $request->input('q');
 
-        $combinations = $list->apply($request->all())->orWhereNull('label')
+        $combinations = $list->apply($request->all())
             ->paginate($request->input('per_page', 15));
 
 
