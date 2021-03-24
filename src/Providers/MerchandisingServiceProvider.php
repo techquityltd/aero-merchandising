@@ -15,7 +15,7 @@ class MerchandisingServiceProvider extends ModuleServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../../config/config.php' => config_path('aero/merchandising.php'),
+                __DIR__.'/../../config/config.php' => config_path('merchandising.php'),
             ], 'config');
 
             $this->publishes([
