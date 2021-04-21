@@ -7,3 +7,7 @@ To install this package run:
 ```composer require techquity/aero-merchandising```
 
 
+
+## Suggested improvements
+* Ability to search
+
