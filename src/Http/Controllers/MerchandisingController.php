@@ -40,19 +40,52 @@ class MerchandisingController extends Controller
         $sortBy = $request->input('sort');
         $searchTerm = $request->input('q');
 
-        $combinations = $list->apply($request->all())->orWhereNull('label')
+        // Check for null combinations labels and try and find a match
+        $this->fixNullLabels();
+
+        $combinations = $list->apply($request->all())
             ->paginate($request->input('per_page', 15));
 
         return view('merchandising::index',
             compact('combinations', 'list', 'sortBy', 'searchTerm'));
     }
 
+
+    public function fixNullLabels() {
+
+        $combinations = Combination::where('label', null)->get();
+
+        foreach ($combinations as $combination) {
+
+            $models = \Aero\Common\Services\CombinationSerializer::deserialize($combination);
+
+            $models = $models->map(static function ($model, $key) {
+                if ($model instanceof \Illuminate\Support\Collection) {
+                    $model = $model->first();
+                }
+                return $model;
+            });
+
+            $label = $models->map(function ($model) {
+                if($model instanceof \Aero\Catalog\Models\Category) {
+                    return implode(' > ', $model->breadcrumb->pluck('name')->toArray());
+                }
+                return $model->name ." > ";
+            })->implode(' ');
+
+            if ($label) {
+                $label =  trim($label, ' > ');
+                $combination->label = $label;
+                $combination->save();
+            }
+        }
+    }
+
+
     public function store(Request $request)
     {
 
         $combination = Combination::find($request->input('combination_id'));
-
-
 
         $merchandised = $request->input('sorts');
 
@@ -67,7 +100,7 @@ class MerchandisingController extends Controller
 
         // Update search (if not sync as it's really slow)
         //if(config('queue.default') != 'sync') {
-            event(new ListingsUpdated($combination->listings));
+        event(new ListingsUpdated($combination->listings));
         //}
 
         return redirect(route('admin.modules.merchandising.listings', ['combination' => $combination->id]))->with([

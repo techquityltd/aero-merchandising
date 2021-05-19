@@ -16,46 +16,16 @@
             <th></th>
         </tr>
         @forelse($combinations as $combination)
-
-            {{-- If we don't have a label attempt to find it --}}
-            @if($combination->label == null)
-                @php
-
-                    $models = Aero\Common\Services\CombinationSerializer::deserialize($combination);
-
-                    $models = $models->map(static function ($model, $key) {
-                        if ($model instanceof \Illuminate\Support\Collection) {
-                            $model = $model->first();
-                        }
-                        return $model;
-                    });
-
-                    $label = $models->map(function ($model) {
-                        if($model instanceof \Aero\Catalog\Models\Category) {
-                            return implode(' > ', $model->breadcrumb->pluck('name')->toArray());
-                        }
-                        return $model->name ." > ";
-                    })->implode(' ');
-
-                        $label =  trim($label, ' > ');
-                        $combination->label = $label;
-                @endphp
-            @endif
-
-            {{-- If we have a label print out combination --}}
-            @if ($combination->label != null)
-                <tr>
-                    <td>
-                        <a href="{{ route('admin.modules.merchandising.listings', array_merge(request()->all(), ['combination' => $combination])) }}">{{ $combination->label }}</a>
-                    </td>
-                    <td>
-                        <div class="flex items-center justify-end">
-                            <a class="mr-2" href="{{ route('admin.modules.merchandising.listings', array_merge(request()->all(), ['combination' => $combination])) }}">@include('admin::icons.manage')</a>
-                        </div>
-                    </td>
-                </tr>
-            @endif
-
+            <tr>
+                <td>
+                    <a href="{{ route('admin.modules.merchandising.listings', array_merge(request()->all(), ['combination' => $combination])) }}">{{ $combination->label }}</a>
+                </td>
+                <td>
+                    <div class="flex items-center justify-end">
+                        <a class="mr-2" href="{{ route('admin.modules.merchandising.listings', array_merge(request()->all(), ['combination' => $combination])) }}">@include('admin::icons.manage')</a>
+                    </div>
+                </td>
+            </tr>
         @empty
             <tr>
                 <td colspan="3">No combinations</td>
