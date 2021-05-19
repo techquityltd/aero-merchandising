@@ -40,10 +40,8 @@ class MerchandisingController extends Controller
         $sortBy = $request->input('sort');
         $searchTerm = $request->input('q');
 
-        $combinations = $list->apply($request->all())
+        $combinations = $list->apply($request->all())->orWhereNull('label')
             ->paginate($request->input('per_page', 15));
-
-
 
         return view('merchandising::index',
             compact('combinations', 'list', 'sortBy', 'searchTerm'));
