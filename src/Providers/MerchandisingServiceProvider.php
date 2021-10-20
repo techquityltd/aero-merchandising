@@ -15,27 +15,26 @@ class MerchandisingServiceProvider extends ModuleServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../../config/config.php' => config_path('merchandising.php'),
+                __DIR__ . '/../../config/config.php' => config_path('merchandising.php'),
             ], 'config');
 
             $this->publishes([
-                __DIR__.'/../../resources/js' => public_path('vendor/merchandising/js'),
+                __DIR__ . '/../../resources/js' => public_path('vendor/merchandising/js'),
             ], 'merchandising');
-
         }
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'merchandising');
 
         Settings::group('merchandising', static function (SettingGroup $group) {
-            $group->string('sortables')->default(config('merchandising.sortables'));
+            $group->array('sortables')->default(config('merchandising.sortables'));
         });
     }
 
     public function register(): void
     {
 
-        if (! $this->app->configurationIsCached()) {
-            $this->mergeConfigFrom(__DIR__.'/../../config/config.php', 'merchandising');
+        if (!$this->app->configurationIsCached()) {
+            $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'merchandising');
         }
 
 
